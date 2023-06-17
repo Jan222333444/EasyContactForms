@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class ContactFormController {
 
 
-    private ContactFormService service;
+    private final ContactFormService service;
 
 
     @Autowired
@@ -30,6 +30,7 @@ public class ContactFormController {
     public ResponseEntity<ContactFormDto> processContactForm(@RequestBody @Valid ContactFormDto contactFormDto){
         log.debug("[POST] Saving Contact Form");
         service.saveContactForm(contactFormDto);
+        log.debug("[POST] successfully processed contact form");
         return ResponseEntity.ok(contactFormDto);
     }
 }

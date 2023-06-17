@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -12,12 +13,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ContactFormDto {
 
-    @NotNull
-    @Email
+    @NotEmpty(message = "Email cannot be empty")
+    @Email(message = "Has to be a valid email address")
     private String email;
 
     private String name;
 
-    @NotNull
+    @NotEmpty(message = "Message cannot be empty")
     private String message;
 }
