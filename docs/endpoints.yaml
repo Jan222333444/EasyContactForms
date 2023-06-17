@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: EasyContactFormHandler
+  description: EasyContactFormHandler
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+    description: Development server
+paths:
+  /contact:
+    post:
+      summary: Add contact request
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+          required: false
+          description: Optional Authorization via Bearer token
+      responses:
+        '201':
+          description: created new entry
+        '400':
+          description: invalid request

@@ -12,8 +12,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ContactFormDto {
 
-    private int id;
-
     @NotNull
     @Email
     private String email;

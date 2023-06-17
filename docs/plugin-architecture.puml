@@ -1,0 +1,28 @@
+@startuml
+
+package pluginapi {
+    [main-class]
+}
+
+package core {
+    [ContactFormController]
+    package services{
+        [Mailing-Service]
+        [ContactFormService]
+        interface IMailProvider
+        [SMTP]
+        [SMTP] -r-> IMailProvider
+        [Mailing-Service] --> IMailProvider
+
+    }
+    [PluginLoader]
+
+    [ContactFormController] --> [ContactFormService]
+    [ContactFormService] --> [Mailing-Service]
+    [ContactFormController] --> [PluginLoader]
+    [ContactFormService] --> [PluginLoader]
+    [Mailing-Service] --> [PluginLoader]
+    [PluginLoader] --> [main-class]
+
+}
+@enduml
