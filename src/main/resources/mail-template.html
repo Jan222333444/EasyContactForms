@@ -11,6 +11,11 @@
     <span th:text="${name}" style="margin-left: 5%;"></span>
 </div>
 
+<div th:if="${!subject.equalsIgnoreCase('')}">
+    <h3>Subject:</h3>
+    <span th:text="${subject}" style="margin-left: 5%;"></span>
+</div>
+
 <div>
     <h3>Email Address:</h3>
     <a th:text="${email}" th:href="'mailto:' + ${email}" style="margin-left: 5%"></a>

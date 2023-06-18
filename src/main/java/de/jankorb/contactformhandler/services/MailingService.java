@@ -105,6 +105,7 @@ public class MailingService {
 
         Context context = new Context();
         context.setVariable("name", contactForm.getName() == null ? "" : contactForm.getName());
+        context.setVariable("subject", contactForm.getSubject() == null ? "" : contactForm.getSubject());
         context.setVariable("message", msg);
         context.setVariable("email", contactForm.getEmail());
         context.setVariable("id", contactForm.getId());

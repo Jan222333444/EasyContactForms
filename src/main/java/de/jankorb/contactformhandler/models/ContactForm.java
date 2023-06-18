@@ -26,17 +26,20 @@ public class ContactForm {
 
     private String name;
 
+    private String subject;
+
     @NotNull
     @Column(length = 10240)
     private String message;
 
 
-    public ContactForm(String email, String name, String message){
+    public ContactForm(String email, String name, String subject, String message){
         this.email = email;
         this.name = name;
+        this.subject = subject;
         this.message = message;
     }
     public static ContactForm fromContactFormDto(ContactFormDto contactFormDto){
-        return new ContactForm(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getMessage());
+        return new ContactForm(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage());
     }
 }
