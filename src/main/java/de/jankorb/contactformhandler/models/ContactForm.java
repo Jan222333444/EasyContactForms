@@ -27,6 +27,7 @@ public class ContactForm {
     private String name;
 
     @NotNull
+    @Column(length = 10240)
     private String message;
 
 

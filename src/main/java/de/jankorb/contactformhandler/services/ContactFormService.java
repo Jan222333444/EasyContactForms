@@ -15,10 +15,10 @@ import java.util.ArrayList;
 @Service
 public class ContactFormService {
 
-    private ArrayList<ContactForm> contactForms = new ArrayList<>();
-    private ContactFormRepository repository;
+    private final ArrayList<ContactForm> contactForms = new ArrayList<>();
+    private final ContactFormRepository repository;
 
-    private MailingService mailingService;
+    private final MailingService mailingService;
 
     @Value("${redirect.mode}")
     private String mode;
@@ -33,7 +33,8 @@ public class ContactFormService {
         ContactForm contactForm = repository.save(ContactForm.fromContactFormDto(contactFormDto));
         if(mode.equalsIgnoreCase("email")){
             log.info("Redirecting Contact Form to email");
-            mailingService.sendMail(contactForm);
+            MailSendThread thread = new MailSendThread(mailingService, contactForm);
+            thread.start();
         }
         log.info("Saved Contact Form");
     }
