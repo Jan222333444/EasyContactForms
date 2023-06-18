@@ -4,7 +4,9 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+config/application.properties
+config/backup.application.properties
+smtp-data
 ### STS ###
 .apt_generated
 .classpath

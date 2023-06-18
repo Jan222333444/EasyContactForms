@@ -12,6 +12,8 @@ sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
+    jcenter()
+    gradlePluginPortal()
 }
 
 ext {
@@ -26,7 +28,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'commons-validator:commons-validator:1.7'
+    implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
     implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
+    implementation 'javax.mail:mail:1.5.0-b01'
     runtimeOnly 'com.h2database:h2'
 }
 

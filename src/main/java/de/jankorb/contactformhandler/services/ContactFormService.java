@@ -18,18 +18,22 @@ public class ContactFormService {
     private ArrayList<ContactForm> contactForms = new ArrayList<>();
     private ContactFormRepository repository;
 
+    private MailingService mailingService;
+
     @Value("${redirect.mode}")
     private String mode;
 
     @Autowired
-    public ContactFormService(ContactFormRepository repository){
+    public ContactFormService(ContactFormRepository repository, MailingService mailingService){
         this.repository = repository;
+        this.mailingService = mailingService;
     }
     public void saveContactForm(ContactFormDto contactFormDto){
         contactForms.add(ContactForm.fromContactFormDto(contactFormDto));
-        repository.save(ContactForm.fromContactFormDto(contactFormDto));
+        ContactForm contactForm = repository.save(ContactForm.fromContactFormDto(contactFormDto));
         if(mode.equalsIgnoreCase("email")){
             log.info("Redirecting Contact Form to email");
+            mailingService.sendMail(contactForm);
         }
         log.info("Saved Contact Form");
     }

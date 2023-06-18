@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EasyContactForms</title>
+</head>
+<body>
+<h2 th:text="'New Contact Request #' + ${id}"></h2>
+<div th:if="${!name.equalsIgnoreCase('')}">
+    <h3>Name:</h3>
+    <span th:text="${name}" style="margin-left: 5%;"></span>
+</div>
+
+<div>
+    <h3>Email Address:</h3>
+    <a th:text="${email}" th:href="'mailto:' + ${email}" style="margin-left: 5%"></a>
+</div>
+
+<div>
+    <h3>Message:</h3>
+    <div style="margin-left: 5%; border: 1px solid blue; padding: 50px;">
+        <div th:each="line : ${message}">
+            <span th:text="${line}"></span><br/>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

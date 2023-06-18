@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 public interface Plugin {
+    
+    public PluginPriority priority = PluginPriority.LOW;
 
     default List<PluginFactory> getPluginFactories() {
         return Collections.emptyList();
