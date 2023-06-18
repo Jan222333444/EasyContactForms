@@ -1,7 +1,7 @@
-package de.jankorb.pluginapi;
+package de.jankorb.contactformhandler.api;
 
-import de.jankorb.contactformhandler.dtos.ContactFormDto;
-import de.jankorb.contactformhandler.models.ContactForm;
+import de.jankorb.contactformhandler.api.models.ContactFormDto;
+import de.jankorb.contactformhandler.api.models.ContactForm;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,1 +1,4 @@
 rootProject.name = 'contactFormHandler'
+include 'PluginAPI'
+include 'TestPlugin'
+

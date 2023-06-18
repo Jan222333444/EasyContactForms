@@ -1,7 +1,8 @@
 package de.jankorb.contactformhandler;
 
-import de.jankorb.pluginapi.Plugin;
-import de.jankorb.pluginapi.PluginFactory;
+import de.jankorb.contactformhandler.api.Plugin;
+import de.jankorb.contactformhandler.api.PluginFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.Objects.requireNonNull;
 
+@Slf4j
 public class PluginLoader {
     private final Map<String, PluginFactory> fooFactoryMap = new HashMap<>();
     private final File pluginsDir;
@@ -24,7 +26,7 @@ public class PluginLoader {
 
     public void loadPlugins() {
         if (!pluginsDir.exists() || !pluginsDir.isDirectory()) {
-            System.err.println("Skipping Plugin Loading. Plugin dir not found: " + pluginsDir);
+            log.error("Skipping Plugin Loading. Plugin dir not found: " + pluginsDir);
             return;
         }
 
@@ -39,7 +41,7 @@ public class PluginLoader {
     }
 
     private void loadPlugin(final File pluginDir) {
-        System.out.println("Loading plugin: " + pluginDir);
+        log.info("Loading plugin: " + pluginDir);
         final URLClassLoader pluginClassLoader = createPluginClassLoader(pluginDir);
         final ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -54,7 +56,7 @@ public class PluginLoader {
 
 
     private void installPlugin(final Plugin plugin) {
-        System.out.println("Installing plugin: " + plugin.getClass().getName());
+        log.info("Installing plugin: " + plugin.getClass().getName());
         for (PluginFactory f : plugin.getPluginFactories()) {
             fooFactoryMap.put(f.getName(), f);
         }
@@ -80,5 +82,9 @@ public class PluginLoader {
 
     public PluginFactory getPluginFactory(String name) {
         return fooFactoryMap.get(name);
+    }
+
+    public Map<String,PluginFactory> getPluginFactories() {
+        return fooFactoryMap;
     }
 }

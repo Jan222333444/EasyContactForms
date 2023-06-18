@@ -14,7 +14,7 @@ import java.util.List;
 public class PluginClassLoader extends URLClassLoader {
 
     public static final List<String> SHARED_PACKAGES = List.of(
-            "de.jankorb.pluginapi"
+            "de.jankorb.contactformhandler.api"
     );
 
     private final ClassLoader parentClassLoader;

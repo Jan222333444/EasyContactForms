@@ -1,4 +1,4 @@
-package de.jankorb.pluginapi;
+package de.jankorb.contactformhandler.api;
 
 public enum PluginPriority {
     LOWEST(0), LOW(1), MIDDLE(2), HIGH(3), HIGHEST(4);
