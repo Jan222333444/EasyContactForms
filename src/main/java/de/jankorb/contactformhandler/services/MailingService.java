@@ -92,7 +92,7 @@ public class MailingService {
 
     }
 
-    private String renderHTML(ContactForm contactForm) {
+    public String renderHTML(ContactForm contactForm) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -104,7 +104,7 @@ public class MailingService {
 
 
         Context context = new Context();
-        context.setVariable("name", contactForm.getName());
+        context.setVariable("name", contactForm.getName() == null ? "" : contactForm.getName());
         context.setVariable("message", msg);
         context.setVariable("email", contactForm.getEmail());
         context.setVariable("id", contactForm.getId());
