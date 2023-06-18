@@ -28,7 +28,7 @@ public class ContactFormService {
         this.repository = repository;
         this.mailingService = mailingService;
     }
-    public void saveContactForm(ContactFormDto contactFormDto){
+    public ContactForm saveContactForm(ContactFormDto contactFormDto){
         contactForms.add(ContactForm.fromContactFormDto(contactFormDto));
         ContactForm contactForm = repository.save(ContactForm.fromContactFormDto(contactFormDto));
         if(mode.equalsIgnoreCase("email")){
@@ -37,5 +37,6 @@ public class ContactFormService {
             thread.start();
         }
         log.info("Saved Contact Form");
+        return contactForm;
     }
 }

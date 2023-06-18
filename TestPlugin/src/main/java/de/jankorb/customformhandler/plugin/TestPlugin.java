@@ -24,26 +24,31 @@ public class TestPlugin implements Plugin {
 
     @Override
     public boolean onLoad() {
+        System.out.println("on load");
         return true;
     }
 
     @Override
     public boolean onTeardown() {
+        System.out.println("Teardown");
         return true;
     }
 
     @Override
     public boolean beforeContactFormProcessing(ContactFormDto contactForm) {
+        System.out.println("Before Processing");
         return false;
     }
 
     @Override
     public boolean contactFormProcessed(ContactForm contactForm) {
+        System.out.println("Processed");
         return false;
     }
 
     @Override
     public boolean onMailSent(ContactForm contactForm) {
+        System.out.println("Mail Sent");
         return false;
     }
 }
