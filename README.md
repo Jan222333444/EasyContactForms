@@ -106,7 +106,7 @@ To develop a plugin implement the Plugin Interface from the ``PluginAPI`` subpro
 
 You also need to implement the ``PluginFactory`` of this subproject and link it inside your implementation of the ``Plugin`` interface.
 
-Last step is to add the file ``de.jankorb.contactformhandler.api.Plugin`` with the full name of your Plugin implementation (including package path)
+Last step is to add the file ``org.easycontactforms.api.Plugin`` with the full name of your Plugin implementation (including package path)
 inside the ``resources/META-INF/services`` directory of your Gradle or Maven project.
 
 ## Contribution

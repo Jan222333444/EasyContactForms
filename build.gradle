@@ -6,7 +6,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
-group = 'de.jankorb'
+group = 'org.easycontactforms.core'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -23,6 +23,7 @@ ext {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok:1.18.26'
+    implementation project(':PluginAPI')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -31,7 +32,6 @@ dependencies {
     implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
     implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
     implementation 'javax.mail:mail:1.5.0-b01'
-    implementation project(':PluginAPI')
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'

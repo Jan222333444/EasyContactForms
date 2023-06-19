@@ -1,4 +1,4 @@
-rootProject.name = 'contactFormHandler'
+rootProject.name = 'EasyContactForms'
 include 'PluginAPI'
 include 'TestPlugin'
 
