@@ -1,25 +1,38 @@
-## EasyContactForms - A Backend for Contact Forms
+# EasyContactForms - A Backend for Contact Forms
 
 Welcome to the readme file for the EasyContactForms program built with Spring Boot. This application allows you to store
 or forward contact form submissions via a REST endpoint. Below you will find important information regarding the setup
 and usage of the program.
 
-### Functionality
+## Functionality
 
 The EasyContactForms Backend utilizes a REST endpoint to receive and process form submissions. The endpoint expects a
 POST request with the necessary fields for the contact form entry. Once a request is received, it will either be stored
 in a relational database or forwarded to the specified email address.
 
-### Installation
+## Requirements
+
+### Productive
+
+- Java Version >= 17
+- Gradle Version >= 7
+
+### Development
+
+- Java Version >= 17
+- Gradle Version >= 7
+- Docker
+
+## Installation
 
 1. Ensure that you have Java and Gradle installed on your system.
 
-2. Clone the repository from this [repository](https://github.com/Jan222333444/EasyContactForms).
+2. Clone the [repository](https://github.com/Jan222333444/EasyContactForms).
 
 3. Navigate to the project directory:
 
    ```
-   cd easy-contact-forms
+   cd EasyContactForms
    ```
 
 4. Build the system:
@@ -28,18 +41,31 @@ in a relational database or forwarded to the specified email address.
    ./gradlew build
    ```
 
-### Configuration
+## Configuration
 
-1. Open the "application.properties" file located in the src/main/resources directory.
+### Productive
+
+1. Copy the file ````example.application.propterties```` into ``application.properties``
 
 2. Configure the following properties according to your requirements:
+   
+   - Specify the database connection URL, username, and password for storing the form submissions.
+   - Set the email settings to forward submissions to a particular email address.
+      - You will need an email account from which this application will send the contact requests to your destination
+        email 
+3. Set up a proxy (e.g. nginx) to encrypt traffic
 
-    - Specify the database connection URL, username, and password for storing the form submissions.
-    - Set the email settings to forward submissions to a particular email address.
-        - You will need an email account from which this application will send the contact requests to your destination
-          email
+You can deactivate redirect to email by setting the configuration option ``redirect.mode=email`` to ``redirect.mode=none``
 
-### Usage
+### Development
+
+1. Open the ``dev.application.properties`` file located in the ``config`` directory.
+
+2. If you want to use another database then H2 for development configure it here.
+
+3. Copy the ``dev.application.properties`` to ``application.properties``
+
+## Usage
 
 1. Start the application:
 
@@ -56,24 +82,44 @@ in a relational database or forwarded to the specified email address.
 4. It is recommended to set up a proxy server to enable HTTPS. This is needed especially in context of the GDPR(General
    Data Protection Regulation) of the EU.
 
-### Troubleshooting
+### Development
+
+Additionally, you will need to start the smtp4dev server over Docker.
+
+````bash
+docker compose up -d
+````
+
+
+## Troubleshooting
 
 - If you encounter any issues during installation or usage of the application, please check the error logs and console
   output for any error messages or warnings.
 
 - Verify that all configuration parameters are set correctly, including the database connection and email settings.
 
-### Contribution
+## Plugin development
+
+#### Currently, the plugin API is already available, but it is still unstable
+
+To develop a plugin implement the Plugin Interface from the ``PluginAPI`` subproject
+
+You also need to implement the ``PluginFactory`` of this subproject and link it inside your implementation of the ``Plugin`` interface.
+
+Last step is to add the file ``de.jankorb.contactformhandler.api.Plugin`` with the full name of your Plugin implementation (including package path)
+inside the ``resources/META-INF/services`` directory of your Gradle or Maven project.
+
+## Contribution
 
 We welcome contributions to improve this Contact Form Backend program. If you have any suggestions for improvement or
 have found any issues, please feel free to submit them in the form of pull requests or issues
 on [https://github.com/Jan222333444/EasyContactForms](https://github.com/Jan222333444/EasyContactForms).
 
-### License
+## License
 
 This program is licensed under the MIT license and is freely available for personal and commercial use.
 
-### Contact
+## Contact
 
 For any questions or inquiries, please use the GitHub Issue system of this repository.
 

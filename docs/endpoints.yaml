@@ -6,10 +6,21 @@ info:
 servers:
   - url: 'http://localhost:8080'
     description: Development server
+tags:
+  - name: contact-submission
+    description: All contact-submission related endpoints
+
 paths:
   /contact:
     post:
+      tags:
+        - contact-submission
       summary: Add contact request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactFormDTO"
       parameters:
         - in: header
           name: authorization
@@ -22,3 +33,20 @@ paths:
           description: created new entry
         '400':
           description: invalid request
+
+components:
+  schemas:
+    ContactFormDTO:
+      type: object
+      required:
+        - email
+        - message
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
