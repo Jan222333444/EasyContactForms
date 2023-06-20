@@ -32,12 +32,16 @@ public class ContactForm {
     @Column(length = 10240)
     private String message;
 
+    @NotNull
+    private boolean emailSent;
+
 
     public ContactForm(String email, String name, String subject, String message){
         this.email = email;
         this.name = name;
         this.subject = subject;
         this.message = message;
+        this.emailSent = false;
     }
     public static ContactForm fromContactFormDto(ContactFormDto contactFormDto){
         return new ContactForm(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage());

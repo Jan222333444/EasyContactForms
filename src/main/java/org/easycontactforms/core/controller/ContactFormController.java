@@ -43,6 +43,6 @@ public class ContactFormController {
             PluginStore.instance.plugins.get(key).contactFormProcessed(new org.easycontactforms.api.models.ContactForm(contactForm.getId(), contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
         }
         log.debug("[POST] successfully processed contact form");
-        return ResponseEntity.ok(contactFormDto);
+        return ResponseEntity.accepted().body(contactForm);
     }
 }

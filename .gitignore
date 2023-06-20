@@ -8,6 +8,7 @@ config/application.properties
 config/backup.application.properties
 smtp-data
 plugins
+data
 ### STS ###
 .apt_generated
 .classpath

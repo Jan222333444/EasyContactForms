@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -32,10 +33,24 @@ public class ContactFormService {
         ContactForm contactForm = repository.save(ContactForm.fromContactFormDto(contactFormDto));
         if(mode.equalsIgnoreCase("email")){
             log.info("Redirecting Contact Form to email");
-            MailSendThread thread = new MailSendThread(mailingService, contactForm);
+            MailSendThread thread = new MailSendThread(this, mailingService, contactForm);
             thread.start();
         }
         log.info("Saved Contact Form");
         return contactForm;
+    }
+
+    public ContactForm updateContactForm(ContactForm contactForm){
+        repository.save(contactForm);
+        return contactForm;
+    }
+
+    public List<ContactForm> getContactForms(boolean onlyNotSendEmails){
+
+        if(!onlyNotSendEmails){
+            return repository.findAll();
+        }else {
+            return repository.findByEmailSent(false);
+        }
     }
 }

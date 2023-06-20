@@ -2,6 +2,7 @@ package org.easycontactforms.core.services;
 
 import org.easycontactforms.core.models.ContactForm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -15,6 +16,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Properties;
 
 @Slf4j
@@ -54,7 +56,7 @@ public class MailingService {
     @Value("${mail.user.displayName}")
     private String displayName;
 
-    public void sendMail(ContactForm contactForm) {
+    public void sendMail(ContactForm contactForm) throws MessagingException, UnsupportedEncodingException {
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", auth);
         prop.put("mail.smtp.ssl.enable", enable);
@@ -72,23 +74,21 @@ public class MailingService {
         });
         String msg = renderHTML(contactForm);
         Message message = new MimeMessage(session);
-        try {
-            message.setFrom(new InternetAddress(address, displayName));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-            message.setSubject("New Contact Request from: " + contactForm.getEmail());
 
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setContent(msg, "text/html");
+        message.setFrom(new InternetAddress(address, displayName));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        message.setSubject("New Contact Request from: " + contactForm.getEmail());
 
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(mimeBodyPart);
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setContent(msg, "text/html");
 
-            message.setContent(multipart);
-            Transport.send(message);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
 
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        message.setContent(multipart);
+        Transport.send(message);
+
+
 
     }
 
@@ -111,5 +111,16 @@ public class MailingService {
         context.setVariable("id", contactForm.getId());
 
         return templateEngine.process("mail-template", context);
+    }
+
+    public void resendMails(boolean resendOnlyNotSendMails, ContactFormService contactFormService){
+        if(resendOnlyNotSendMails){
+            List<ContactForm> forms = contactFormService.getContactForms(true);
+            for (ContactForm contactForm : forms){
+                MailSendThread thread = new MailSendThread(contactFormService, this, contactForm);
+                thread.start();
+            }
+        }
+
     }
 }
