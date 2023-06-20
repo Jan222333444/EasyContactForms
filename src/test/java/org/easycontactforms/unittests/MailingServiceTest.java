@@ -14,7 +14,8 @@ public class MailingServiceTest {
     public void testRender(){
         MailingService mailingService = new MailingService();
 
-        ContactForm contactForm = new ContactForm(1, "test@example.test", "TestName", "", "",false);
+        ContactForm contactForm = new ContactForm("test@example.test", "TestName", "", "");
+        contactForm.setId(1);
         String output = mailingService.renderHTML(contactForm);
 
         Assertions.assertFalse(output.contains("${"));

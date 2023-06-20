@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Data
@@ -35,6 +36,12 @@ public class ContactForm {
     @NotNull
     private boolean emailSent;
 
+    @NotNull
+    private Date created;
+
+    @NotNull
+    private Date updated;
+
 
     public ContactForm(String email, String name, String subject, String message){
         this.email = email;
@@ -46,4 +53,15 @@ public class ContactForm {
     public static ContactForm fromContactFormDto(ContactFormDto contactFormDto){
         return new ContactForm(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage());
     }
+
+    @PrePersist
+    protected void onCreate() {
+        created = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
+    }
+
 }
