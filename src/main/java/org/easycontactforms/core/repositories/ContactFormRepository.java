@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * Repository to interact with database
+ */
 public interface ContactFormRepository extends JpaRepository<ContactForm, Integer> {
 
 

@@ -8,6 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
 import java.util.Map;
+
+/**
+ * Main class of application
+ * Handles startup and teardown of Plugins and application
+ */
 @Slf4j
 @SpringBootApplication
 public class ContactFormHandlerApplication {

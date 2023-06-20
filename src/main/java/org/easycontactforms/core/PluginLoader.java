@@ -14,6 +14,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Initial Loader for Plugins
+ */
 @Slf4j
 public class PluginLoader {
     private final Map<String, PluginFactory> fooFactoryMap = new HashMap<>();

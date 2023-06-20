@@ -19,6 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * Service to send emails
+ */
 @Slf4j
 @Service
 public class MailingService {
@@ -56,6 +59,12 @@ public class MailingService {
     @Value("${mail.user.displayName}")
     private String displayName;
 
+    /**
+     * method sends email based on configuration of application
+     * @param contactForm contact form to redirect
+     * @throws MessagingException is thrown if smtp server is not reachable
+     * @throws UnsupportedEncodingException unexpected error
+     */
     public void sendMail(ContactForm contactForm) throws MessagingException, UnsupportedEncodingException {
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", auth);
@@ -92,6 +101,11 @@ public class MailingService {
 
     }
 
+    /**
+     * Renders HTML for Email based on contact form
+     * @param contactForm information to render HTML
+     * @return rendered HTML as String
+     */
     public String renderHTML(ContactForm contactForm) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");

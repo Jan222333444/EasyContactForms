@@ -1,28 +1,53 @@
 @startuml
-
-package pluginapi {
-    [main-class]
+package org.easycontactforms{
+package api {
+    [Plugin]
+    [PluginFactory]
+    [Plugin] --> [PluginFactory]
 }
 
 package core {
-    [ContactFormController]
+
+    package controller {
+        [ContactFormController]
+    }
+    package dtos {
+         [ContactFormDto]
+         [ErrorDto]
+    }
+    package models {
+         [ContactForm]
+    }
+    package repositories {
+        [ContactFormRepository]
+    }
+
     package services{
         [Mailing-Service]
+        [Mailing-Thread]
         [ContactFormService]
-        interface IMailProvider
-        [SMTP]
-        [SMTP] -r-> IMailProvider
-        [Mailing-Service] --> IMailProvider
 
+        [Mailing-Thread]-->[Mailing-Service]
     }
     [PluginLoader]
+    [PluginClassLoader]
+    [PluginStore]
+    [ApplicationState]
+    [ContactFormHandlerApplication]
+    [ContactFormHandlerApplication] --> [PluginLoader]
+    [ContactFormHandlerApplication] --> [PluginStore]
+    [Mailing-Thread] --> [ApplicationState]
+    [ContactFormService] --> [ContactFormRepository]
 
     [ContactFormController] --> [ContactFormService]
-    [ContactFormService] --> [Mailing-Service]
+    [ContactFormService] --> [Mailing-Thread]
     [ContactFormController] --> [PluginLoader]
     [ContactFormService] --> [PluginLoader]
     [Mailing-Service] --> [PluginLoader]
-    [PluginLoader] --> [main-class]
+    [PluginLoader] --> [PluginClassLoader]
+    [PluginClassLoader] --> [Plugin]
+    [PluginClassLoader] --> [PluginFactory]
 
+}
 }
 @enduml

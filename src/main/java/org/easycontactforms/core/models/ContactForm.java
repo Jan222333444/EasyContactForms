@@ -10,6 +10,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * Database model for contact request
+ */
 @Entity
 @Data
 @NoArgsConstructor

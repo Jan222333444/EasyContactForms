@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Service to handle processing of contact form input
+ */
 @Slf4j
 @Service
 public class ContactFormService {
-
-    private final ArrayList<ContactForm> contactForms = new ArrayList<>();
     private final ContactFormRepository repository;
 
     private final MailingService mailingService;
@@ -28,8 +29,13 @@ public class ContactFormService {
         this.repository = repository;
         this.mailingService = mailingService;
     }
+
+    /**
+     * handles initial request
+     * @param contactFormDto
+     * @return
+     */
     public ContactForm saveContactForm(ContactFormDto contactFormDto){
-        contactForms.add(ContactForm.fromContactFormDto(contactFormDto));
         ContactForm contactForm = repository.save(ContactForm.fromContactFormDto(contactFormDto));
         if(mode.equalsIgnoreCase("email")){
             log.info("Redirecting Contact Form to email");
@@ -40,6 +46,11 @@ public class ContactFormService {
         return contactForm;
     }
 
+    /**
+     * updates single instance in database
+     * @param contactForm changed object
+     * @return result from database
+     */
     public ContactForm updateContactForm(ContactForm contactForm){
         repository.save(contactForm);
         return contactForm;

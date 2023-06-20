@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for handling contact requests
+ */
 @RestController
 @Slf4j
 @RequestMapping("/contact")
@@ -28,6 +31,11 @@ public class ContactFormController {
         this.service = service;
     }
 
+    /**
+     * receives request and handles plugin hooks
+     * @param contactFormDto request body
+     * @return status and in db saved object
+     */
     @CrossOrigin
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity processContactForm(@RequestBody @Valid ContactFormDto contactFormDto){
