@@ -6,3 +6,14 @@ run-dev:
 #	./gradlew bootRun &
 	docker-compose up -d
 	mv config/backup.application.properties config/application.properties
+
+
+.PHONY: sslCertificate
+sslCertificate:
+	openssl req -newkey rsa:4096 \
+              -x509 \
+              -sha256 \
+              -days 3650 \
+              -nodes \
+              -out secrets/server.crt \
+              -keyout secrets/private.key
