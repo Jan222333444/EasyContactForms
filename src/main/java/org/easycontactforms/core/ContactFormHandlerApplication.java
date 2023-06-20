@@ -33,4 +33,11 @@ public class ContactFormHandlerApplication {
         }
     }
 
+    @PreDestroy
+    public static void teardown(){
+        for (String key : PluginStore.instance.plugins.keySet()) {
+            PluginStore.instance.plugins.get(key).onTeardown();
+        }
+    }
+
 }
