@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:ContactFormController.processContactForm(ContactFormDto contactFormDto);
+:Plugin Hook beforeContactFormProcessing(ContactFormDto contactFormDto));
+if (contactFormDto.isInvalid()) then (true)
+  :return ResponseEntity.status(400);
+  stop
+else (false)
+endif
+:ContactFormService.save((ContactFormDto contactFormDto);
+
+:Plugin Hook contactFormProcessed(ContactFormDto contactFormDto));
+
+:return ResponseEntity.accepted();
+stop
+
+@enduml

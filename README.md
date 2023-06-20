@@ -25,6 +25,8 @@ in a relational database or forwarded to the specified email address.
 
 ## Installation
 
+Compile from source:
+
 1. Ensure that you have Java and Gradle installed on your system.
 
 2. Clone the [repository](https://github.com/Jan222333444/EasyContactForms).
@@ -100,14 +102,14 @@ docker compose up -d
 
 ## Plugin development
 
-#### Currently, the plugin API is already available, but it is still unstable
-
 To develop a plugin implement the Plugin Interface from the ``PluginAPI`` subproject
 
 You also need to implement the ``PluginFactory`` of this subproject and link it inside your implementation of the ``Plugin`` interface.
 
 Last step is to add the file ``org.easycontactforms.api.Plugin`` with the full name of your Plugin implementation (including package path)
 inside the ``resources/META-INF/services`` directory of your Gradle or Maven project.
+
+An example is given in the ``TestPlugin`` subproject.
 
 ## Contribution
 

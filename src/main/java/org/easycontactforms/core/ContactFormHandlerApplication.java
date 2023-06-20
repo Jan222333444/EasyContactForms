@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.api.PluginFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.File;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 @Slf4j
 @SpringBootApplication
+@EnableScheduling
 public class ContactFormHandlerApplication {
 
     public static void main(String[] args) {
