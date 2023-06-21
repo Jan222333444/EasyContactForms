@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest()
 @SpringBootConfiguration
-class ContactFormHandlerApplicationTests {
+class EasyContactFormsApplicationTests {
 
     @Test
     void contextLoads() {

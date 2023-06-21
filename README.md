@@ -15,7 +15,6 @@ in a relational database or forwarded to the specified email address.
 ### Productive
 
 - Java Version >= 17
-- Gradle Version >= 7
 
 ### Development
 
@@ -23,7 +22,13 @@ in a relational database or forwarded to the specified email address.
 - Gradle Version >= 7
 - Docker
 
-## Installation
+## Startup
+
+Start from jar file:
+
+```bash
+java -jar EasyContactForms-1.0.0-SNAPSHOT.jar
+```
 
 Compile from source:
 
@@ -47,7 +52,27 @@ Compile from source:
 
 ### Productive
 
-1. Copy the file ````example.application.propterties```` into ``application.properties``
+With jar file:
+
+1. Start the application via terminal/powershell
+   - this will create all needed directories in the directory of the jar file
+   - the application will add the default configuration to the config folder
+
+2. Configure the following properties according to your requirements:
+
+   - Specify the database connection URL, username, and password for storing the form submissions otherwise they will be stored locally in a file.
+   - Set the email settings to forward submissions to a particular email address.
+      - You will need an email account from which this application will send the contact requests to your destination
+        email
+3. Set up a proxy (e.g. nginx) or add a ssl certificate to encrypt traffic
+   - for a selfsigned certificate you can run the make target ``sslCertificate``
+
+4. You can deactivate redirect to email by setting the configuration option ``redirect.mode=email`` to ``redirect.mode=none``
+
+
+If self compiled: 
+
+1. Copy the file ````example.application.properties```` into ``application.properties``
 
 2. Configure the following properties according to your requirements:
    
@@ -55,9 +80,9 @@ Compile from source:
    - Set the email settings to forward submissions to a particular email address.
       - You will need an email account from which this application will send the contact requests to your destination
         email 
-3. Set up a proxy (e.g. nginx) to encrypt traffic
+3. Set up a proxy (e.g. nginx) or add a ssl certificate to encrypt traffic
 
-You can deactivate redirect to email by setting the configuration option ``redirect.mode=email`` to ``redirect.mode=none``
+4. You can deactivate redirect to email by setting the configuration option ``redirect.mode=email`` to ``redirect.mode=none``
 
 ### Development
 
@@ -66,6 +91,8 @@ You can deactivate redirect to email by setting the configuration option ``redir
 2. If you want to use another database then H2 for development configure it here.
 
 3. Copy the ``dev.application.properties`` to ``application.properties``
+
+4. Run the Make target ``sslCertificate`` to generate selfsigned certificates for development
 
 ## Usage
 
@@ -92,6 +119,7 @@ Additionally, you will need to start the smtp4dev server over Docker.
 docker compose up -d
 ````
 
+For insight into the architecture of this application, checkout the docs folder with the API definition and some UML-Diagrams
 
 ## Troubleshooting
 
