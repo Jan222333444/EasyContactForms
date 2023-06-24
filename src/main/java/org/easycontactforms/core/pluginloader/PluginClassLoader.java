@@ -1,8 +1,7 @@
-package org.easycontactforms.core;
+package org.easycontactforms.core.pluginloader;
 
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,7 +13,8 @@ import java.util.List;
 public class PluginClassLoader extends URLClassLoader {
 
     public static final List<String> SHARED_PACKAGES = List.of(
-            "org.easycontactforms.api"
+            "org.easycontactforms.api", "org.springframework.stereotype",
+            "org.springframework.web.bind.annotation"
     );
 
     private final ClassLoader parentClassLoader;

@@ -3,13 +3,13 @@ package org.easycontactforms.core;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.api.PluginFactory;
+import org.easycontactforms.core.pluginloader.PluginLoader;
+import org.easycontactforms.core.pluginloader.PluginStore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 
 /**

@@ -2,13 +2,12 @@ package org.easycontactforms.core.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.core.ApplicationState;
-import org.easycontactforms.core.PluginStore;
+import org.easycontactforms.core.pluginloader.PluginStore;
 import org.easycontactforms.core.models.ContactForm;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 @Slf4j
 public class MailSendThread extends Thread {
@@ -34,15 +33,15 @@ public class MailSendThread extends Thread {
             mailingService.sendMail(contactForm);
         } catch (MessagingException e) {
             log.error("Could not connect to smtp server");
-            ApplicationState.instance.smtpAvailable = false;
+            ApplicationState.smtpAvailable = false;
             return;
         } catch (UnsupportedEncodingException e) {
-            ApplicationState.instance.smtpAvailable = false;
+            ApplicationState.smtpAvailable = false;
             e.printStackTrace();
             return;
         }
-        if(!ApplicationState.instance.smtpAvailable && resendPolicy){
-            ApplicationState.instance.smtpAvailable = true;
+        if(!ApplicationState.smtpAvailable && resendPolicy){
+            ApplicationState.smtpAvailable = true;
             mailingService.resendMails(true, contactFormService);
         }
         contactForm.setEmailSent(true);

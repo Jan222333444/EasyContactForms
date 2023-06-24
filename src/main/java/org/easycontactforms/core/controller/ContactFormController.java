@@ -1,6 +1,6 @@
 package org.easycontactforms.core.controller;
 
-import org.easycontactforms.core.PluginStore;
+import org.easycontactforms.core.pluginloader.PluginStore;
 import org.easycontactforms.core.dtos.ContactFormDto;
 import org.easycontactforms.core.dtos.ErrorDto;
 import org.easycontactforms.core.models.ContactForm;

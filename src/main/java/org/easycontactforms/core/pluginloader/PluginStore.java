@@ -1,4 +1,4 @@
-package org.easycontactforms.core;
+package org.easycontactforms.core.pluginloader;
 
 import org.easycontactforms.api.Plugin;
 

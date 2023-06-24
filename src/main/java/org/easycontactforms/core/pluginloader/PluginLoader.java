@@ -1,8 +1,9 @@
-package org.easycontactforms.core;
+package org.easycontactforms.core.pluginloader;
 
 import org.easycontactforms.api.Plugin;
 import org.easycontactforms.api.PluginFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 
 import java.net.MalformedURLException;
 import java.net.URI;
