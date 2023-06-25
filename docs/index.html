@@ -3,8 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>EasyContactForms</title>
-</head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    </head>
 <body>
-<h1>Welcome to the Website of EasyContactForms</h1>
+<h1 class="text-center">Welcome to the Website of EasyContactForms</h1>
+<div class="panel panel-default" style="margin-left: 5%; margin-right: 5%">
+    <div class="panel-heading" ><h3>About</h3></div>
+    <div class="panel-body">
+        The EasyContactForms Backend utilizes a REST endpoint to receive and process form submissions. The endpoint expects a POST request with the necessary fields for the contact form entry. Once a request is received, it will either be stored in a relational database or forwarded to the specified email address.
+        It is an Open Source Project so everyone can use and modify it for free.
+        The application as well provides a Plugin API so everyone can modify the behavior.
+    </div>
+</div>
+<div class="panel panel-default" style="margin-left: 5%; margin-right: 5%">
+    <div class="panel-heading"><h3>Features</h3></div>
+    <div class="panel-body">
+        <ul>
+            <li>Redirect inquiries to your personal E-Mail Address without publishing it in the internet</li>
+            <li>Automatic resend of emails if delivery failed</li>
+            <li>Plugin interface to modify Application behavior</li>
+        </ul>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-left: 5%; margin-right: 5%">
+    <div class="panel-heading"><h3>Further Information</h3></div>
+    <div class="panel-body">
+        <ul>
+            <li><a href="https://github.com/Jan222333444/EasyContactForms/wiki">Official Wiki</a> </li>
+            <li><a href="https://github.com/Jan222333444/EasyContactForms/blob/main/README.md">Project Readme</a></li>
+            <li><a href="https://github.com/Jan222333444/EasyContactForms/tree/main/docs">Project Documentation</a></li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
