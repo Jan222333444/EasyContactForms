@@ -1,7 +1,6 @@
 package org.easycontactforms.core.scheduled;
 
 import lombok.extern.slf4j.Slf4j;
-import org.easycontactforms.core.ApplicationState;
 import org.easycontactforms.core.services.ContactFormService;
 import org.easycontactforms.core.services.MailingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,9 @@ public class ResendEmailsScheduler {
 
     private final ContactFormService contactFormService;
 
+    @Value("${redirect.mode.resend}")
+    private boolean resend;
+
 
     @Autowired
     public ResendEmailsScheduler(MailingService mailingService, ContactFormService contactFormService){
@@ -26,7 +28,9 @@ public class ResendEmailsScheduler {
 
     @Scheduled(fixedRateString = "${redirect.mode.resend.interval}")
     public void resendEmails(){
-        log.info("Resending not send emails");
-        mailingService.resendMails(true, contactFormService);
+        if(resend) {
+            log.info("Resending not send emails");
+            mailingService.resendMails(true, contactFormService);
+        }
     }
 }
