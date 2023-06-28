@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * Controller for handling contact requests
+ * Controller for handling contact requests with JSON or XML body
  */
 @RestController
 @Slf4j
@@ -32,13 +32,34 @@ public class ContactFormController {
     }
 
     /**
-     * receives request and handles plugin hooks
+     * receives request if body contains JSON
      * @param contactFormDto request body
      * @return status and in db saved object
      */
     @CrossOrigin
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity processContactForm(@RequestBody @Valid ContactFormDto contactFormDto){
+        return handleRequest(contactFormDto);
+    }
+
+    /**
+     * receives request if body contains XML
+     * @param contactFormDto request body
+     * @return status and in db saved object
+     */
+    @CrossOrigin
+    @PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE}, produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity processContactFormXML(@RequestBody @Valid ContactFormDto contactFormDto){
+        log.error("Email " + contactFormDto.getEmail());
+        return handleRequest(contactFormDto);
+    }
+
+    /**
+     * handles controller logic and handles plugin hooks
+     * @param contactFormDto request body
+     * @return status and in db saved object
+     */
+    private ResponseEntity handleRequest(ContactFormDto contactFormDto){
         log.debug("[POST] Saving Contact Form");
         for(String key : PluginStore.instance.plugins.keySet()){
             PluginStore.instance.plugins.get(key).beforeContactFormProcessing(new org.easycontactforms.api.models.ContactFormDto(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
