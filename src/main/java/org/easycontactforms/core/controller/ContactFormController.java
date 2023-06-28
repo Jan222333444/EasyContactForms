@@ -59,7 +59,7 @@ public class ContactFormController {
      * @param contactFormDto request body
      * @return status and in db saved object
      */
-    private ResponseEntity handleRequest(ContactFormDto contactFormDto){
+    public ResponseEntity handleRequest(ContactFormDto contactFormDto){
         log.debug("[POST] Saving Contact Form");
         for(String key : PluginStore.instance.plugins.keySet()){
             PluginStore.instance.plugins.get(key).beforeContactFormProcessing(new org.easycontactforms.api.models.ContactFormDto(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
