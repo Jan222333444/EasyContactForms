@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller for handling form-data requests (plain HTML Form post)
+ */
 @Controller
 @Slf4j
 @RequestMapping("/contact")
@@ -27,35 +30,59 @@ public class HTMLContactFormController {
 
     /**
      * Handles plain form posts without javascript used
-     * @param origin Server of website
+     *
+     * @param origin         Server of website
      * @param contactFormDto Form data in plain html post encoding
-     * @return proper redirect back to website
+     * @return proper redirect back to website if possible
      */
     @CrossOrigin
     @PostMapping
-    public String process(@RequestHeader(HttpHeaders.ORIGIN) String origin, HTMLContactFormDto contactFormDto) {
-        log.debug("[POST] Saving Contact Form");
+    public String processPlainHTMLForm(@RequestHeader(HttpHeaders.ORIGIN) String origin, HTMLContactFormDto contactFormDto) {
+        try {
+            log.debug("[POST] Saving Contact Form");
 
-        // Processing plugin hook before contact form processing
-        for(String key : PluginStore.instance.plugins.keySet()){
-            PluginStore.instance.plugins.get(key).beforeContactFormProcessing(new org.easycontactforms.api.models.ContactFormDto(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
+            // Processing plugin hook before contact form processing
+            for (String key : PluginStore.instance.plugins.keySet()) {
+                PluginStore.instance.plugins.get(key).beforeContactFormProcessing(new org.easycontactforms.api.models.ContactFormDto(contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
+            }
+            if (contactFormDto.getEmail() == null || contactFormDto.getMessage() == null) {
+                throw new RuntimeException();
+            }
+            // processes contact form
+            ContactForm contactForm = service.saveContactForm(contactFormDto);
+            log.debug("[POST] processed data excluding plugins");
+
+            // Executing plugin hook contactFormProcessed
+            for (String key : PluginStore.instance.plugins.keySet()) {
+                PluginStore.instance.plugins.get(key).contactFormProcessed(new org.easycontactforms.api.models.ContactForm(contactForm.getId(), contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
+            }
+            log.debug("[POST] successfully processed contact form");
+
+            /*
+             * Redirect handling
+             */
+            return getRedirect(origin, contactFormDto);
+
+        } catch (Exception e) {
+
+            if (contactFormDto.getRedirectError() != null) {
+                assert origin != null;
+                if (contactFormDto.getRedirectError().contains(origin)) {
+                    return "redirect:" + contactFormDto.getRedirectError();
+                }
+                return "redirect:" + origin + contactFormDto.getRedirectError();
+            }
+
         }
-        // processes contact form
-        ContactForm contactForm = service.saveContactForm(contactFormDto);
-        log.debug("[POST] processed data excluding plugins");
+        return "redirect:" + origin;
+    }
 
-        // Executing plugin hook contactFormProcessed
-        for(String key : PluginStore.instance.plugins.keySet()){
-            PluginStore.instance.plugins.get(key).contactFormProcessed(new org.easycontactforms.api.models.ContactForm(contactForm.getId(), contactFormDto.getEmail(), contactFormDto.getName(), contactFormDto.getSubject(), contactFormDto.getMessage()));
-        }
-        log.debug("[POST] successfully processed contact form");
-
-        /*
-         * Redirect handling
-         */
+    /**
+     * Redirect success handling
+     */
+    private String getRedirect(String origin, HTMLContactFormDto contactFormDto){
         if (contactFormDto.getRedirect() != null) {
-            log.warn(contactFormDto.getRedirect());
-            if(origin == null){
+            if (origin == null) {
                 return "redirect:" + contactFormDto.getRedirect();
             }
             if (contactFormDto.getRedirect().contains(origin)) {
@@ -63,6 +90,7 @@ public class HTMLContactFormController {
             }
             return "redirect:" + origin + contactFormDto.getRedirect();
         }
-        return "redirect:" + origin;
+        log.info("[POST][FORM-DATA] Received invalid redirect input");
+        throw new RuntimeException();
     }
 }
