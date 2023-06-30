@@ -6,6 +6,7 @@
 </head>
 <body>
 <form method="post" action="{{host}}/contact">
+  <!-- minimal accepted request information -->
   <label>Email
     <input type="email" name="email">
   </label>
@@ -14,10 +15,11 @@
     <input type="text" name="message">
   </label>
   <br>
+  <!-- Redirect information for the server given as hidden input fields -->
   <input type="hidden" name="redirect" value="{{url}}"/>
   <input type="hidden" name="redirectError" value="{{url}}"/>
-  <input type="submit">
 
+  <input type="submit">
 </form>
 </body>
 </html>
