@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'org.easycontactforms.core'
-version = '1.0.1-RELEASE'
+version = '1.1.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
     implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
     implementation 'javax.mail:mail:1.5.0-b01'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    implementation 'org.glassfish.jaxb:jaxb-runtime'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'

@@ -10,6 +10,32 @@ The EasyContactForms Backend utilizes a REST endpoint to receive and process for
 POST request with the necessary fields for the contact form entry. Once a request is received, it will either be stored
 in a relational database or forwarded to the specified email address.
 
+## Example
+There are multiple data types accepted by the endpoint including a simple HTML Form as followed.
+```html
+<form method="post" action="{{host}}/contact">
+   <!-- minimal accepted request information -->
+  <label>Email
+    <input type="email" name="email">
+  </label>
+  <br>
+  <label>Message
+    <input type="text" name="message">
+  </label>
+  <br>
+   <!-- Redirect information for the server given as hidden input fields -->
+  <input type="hidden" name="redirect" value="{{urlSuccess}}"/>
+  <input type="hidden" name="redirectError" value="{{urlError}}"/>
+  <input type="submit">
+</form>
+```
+
+There are some variables used in the snippet which are explained bellow:
+
+- host: Base url of the EasyContactForms server including port
+- urlSuccess: redirect url to the static website if action was performed successful
+- urlError: redirect url to the static website if action terminated with errors
+
 ## Requirements
 
 ### Productive
