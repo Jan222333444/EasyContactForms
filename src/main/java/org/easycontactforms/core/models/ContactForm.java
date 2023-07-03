@@ -60,6 +60,7 @@ public class ContactForm {
     @PrePersist
     protected void onCreate() {
         created = new Date();
+        updated = new Date();
     }
 
     @PreUpdate
