@@ -1,5 +1,14 @@
 package org.easycontactforms.core.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.easycontactforms.core.pluginloader.PluginStore;
 import org.easycontactforms.core.dtos.ContactFormDto;
 import org.easycontactforms.core.dtos.ErrorDto;
@@ -12,11 +21,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 /**
  * Controller for handling contact requests with JSON or XML body
  */
+@Tag(name="contact-submission", description = "All contact submission related endpoints")
 @RestController
 @Slf4j
 @RequestMapping("/contact")
@@ -36,8 +45,21 @@ public class ContactFormController {
      * @param contactFormDto request body
      * @return status and in db saved object
      */
+    @Operation(summary = "Add contact request",
+            parameters = {
+                    @Parameter(in = ParameterIn.HEADER,
+                            name = "authorization",
+                            description = "Optional Authorization via Bearer token",
+                            required = false,
+                            schema = @Schema(type = "string"))})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created new entry",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContactForm.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid request",
+                    content = @Content)})
     @CrossOrigin
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity processContactForm(@RequestBody @Valid ContactFormDto contactFormDto){
         return handleRequest(contactFormDto);
     }
@@ -74,4 +96,5 @@ public class ContactFormController {
         log.debug("[POST] successfully processed contact form");
         return ResponseEntity.accepted().body(contactForm);
     }
+
 }
