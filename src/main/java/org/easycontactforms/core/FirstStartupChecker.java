@@ -63,7 +63,7 @@ public class FirstStartupChecker {
         }
     }
 
-    private void generateSSLCertificate()  {
+    public void generateSSLCertificate()  {
         File secretsDir = new File("secrets");
         if (!secretsDir.exists() || !secretsDir.isDirectory()) {
             if(!secretsDir.mkdirs()){
@@ -85,7 +85,7 @@ public class FirstStartupChecker {
     }
 
 
-    private X509Certificate generateSelfSignedCertificate(KeyPair keyPair) throws Exception {
+    public X509Certificate generateSelfSignedCertificate(KeyPair keyPair) throws Exception {
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() + 365 * 24 * 60 * 60 * 1000L); // 1 year validity
 
@@ -108,7 +108,7 @@ public class FirstStartupChecker {
         return new JcaX509CertificateConverter().getCertificate(certificateBuilder.build(contentSigner));
     }
 
-    private KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+    public KeyPair generateKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
         generator.initialize(2048); // Key size
         return generator.generateKeyPair();
