@@ -47,4 +47,6 @@ public interface Plugin {
     public boolean contactFormProcessed(ContactForm contactForm);
 
     public boolean onMailSent(ContactForm contactForm);
+
+    public boolean onCommand(String command, String... args);
 }
