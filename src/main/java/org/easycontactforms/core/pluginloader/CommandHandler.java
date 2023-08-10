@@ -1,14 +1,15 @@
 package org.easycontactforms.core.pluginloader;
 
 import lombok.extern.slf4j.Slf4j;
+import org.easycontactforms.api.Plugin;
 import org.easycontactforms.api.PluginFactory;
 import org.easycontactforms.core.EasyContactFormsApplication;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.io.File;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class CommandHandler {
@@ -16,9 +17,12 @@ public class CommandHandler {
     private ApplicationContext context;
     private String[] baseArgs;
 
+    private List<Plugin> plugins;
+
     public CommandHandler(ApplicationContext context, String[] args){
         this.context = context;
         this.baseArgs = args;
+        this.plugins = this.priorities();
     }
 
     public void onCommand(String command, String... args) {
@@ -27,11 +31,14 @@ public class CommandHandler {
             onCommandPlugins(command, args);
         }
     }
+    private List<Plugin> priorities(){
+        return PluginStore.instance.plugins.values().stream().sorted(Comparator.comparingInt(plugin -> plugin.priority.value)).collect(Collectors.toList());
+    }
 
     private void onCommandPlugins(String command, String... args) {
-        for (String key : PluginStore.instance.plugins.keySet()) {
+        for (Plugin plugin : plugins) {
             try {
-                boolean handled = PluginStore.instance.plugins.get(key).onCommand(command, args);
+                boolean handled = plugin.onCommand(command, args);
                 if (handled) {
                     break;
                 }
@@ -73,6 +80,7 @@ public class CommandHandler {
         for (String key : factories.keySet()) {
             PluginStore.instance.plugins.put(key, factories.get(key).build());
         }
+        plugins = priorities();
 
         //Starts all plugins
         for (String key : PluginStore.instance.plugins.keySet()) {
