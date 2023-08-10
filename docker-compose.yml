@@ -8,3 +8,8 @@ services:
       - "2525:25"
     volumes:
       - ./smtp-data:/smtp4dev
+
+  easycontactforms:
+    build: .
+    ports:
+      - "8080:8080"
