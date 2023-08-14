@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,7 +48,7 @@ public class CommandHandler {
         }
     }
 
-    private boolean internalCommands(String command, String... args){
+    private boolean internalCommands(String command, String... args)  {
         if (command.equalsIgnoreCase("stop")) {
             System.exit(0);
             return true;
@@ -62,6 +63,31 @@ public class CommandHandler {
             SpringApplication.exit(context);
             this.context = SpringApplication.run(EasyContactFormsApplication.class, this.baseArgs);
             reloadPlugins();
+            return true;
+        } else if (command.equalsIgnoreCase("shutdown")) {
+            if(args.length == 1){
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.exit(0);
+                return true;
+            }
+            if(args[1].equalsIgnoreCase("now")){
+                System.exit(0);
+                return true;
+            }
+            try{
+                int delay = Integer.parseInt(args[1]);
+                TimeUnit.SECONDS.sleep(delay);
+                System.exit(0);
+                return true;
+            } catch (NumberFormatException exception) {
+                log.error("Cannot parse input. Argument 1 is not of type integer");
+            } catch (InterruptedException e) {
+                log.error("Something went wrong on Shutdown");
+            }
             return true;
         }
         return false;

@@ -45,7 +45,7 @@ public class EasyContactFormsApplication {
         Scanner scanner = new Scanner(System.in);
         CommandHandler handler = new CommandHandler(context, args);
         while (true) {
-            String input = scanner.next();
+            String input = scanner.nextLine();
             String[] arguments = input.split(" ");
             String command = arguments[0];
             handler.onCommand(command, arguments);

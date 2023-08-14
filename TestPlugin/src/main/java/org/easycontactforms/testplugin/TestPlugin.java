@@ -50,4 +50,9 @@ public class TestPlugin implements Plugin {
         System.out.println("Mail Sent");
         return false;
     }
+
+    @Override
+    public boolean onCommand(String command, String... args) {
+        return false;
+    }
 }
