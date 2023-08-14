@@ -12,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -24,18 +23,11 @@ import java.util.Scanner;
 @SpringBootApplication
 @EnableScheduling
 public class EasyContactFormsApplication {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String pluginsPath = "plugins";
 
         new FirstStartupChecker().checkDirectories();
-        PluginLoader pluginLoader = new PluginLoader(new File(pluginsPath));
-        pluginLoader.loadPlugins();
-
-        Map<String, PluginFactory> factories = pluginLoader.getPluginFactories();
-
-        for (String key : factories.keySet()) {
-            PluginStore.instance.plugins.put(key, factories.get(key).build());
-        }
+        loadPlugins(pluginsPath);
 
         //Starts all plugins
         for (String key : PluginStore.instance.plugins.keySet()) {
@@ -58,6 +50,17 @@ public class EasyContactFormsApplication {
             String command = arguments[0];
             handler.onCommand(command, arguments);
 
+        }
+    }
+
+    public static void loadPlugins(String pluginsPath) {
+        PluginLoader pluginLoader = new PluginLoader(new File(pluginsPath));
+        pluginLoader.loadPlugins();
+
+        Map<String, PluginFactory> factories = pluginLoader.getPluginFactories();
+
+        for (String key : factories.keySet()) {
+            PluginStore.instance.plugins.put(key, factories.get(key).build());
         }
     }
 

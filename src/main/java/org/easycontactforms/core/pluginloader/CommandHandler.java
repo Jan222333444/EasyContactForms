@@ -2,12 +2,10 @@ package org.easycontactforms.core.pluginloader;
 
 import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.api.Plugin;
-import org.easycontactforms.api.PluginFactory;
 import org.easycontactforms.core.EasyContactFormsApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
 public class CommandHandler {
 
     private ApplicationContext context;
-    private String[] baseArgs;
+    private final String[] baseArgs;
 
     private List<Plugin> plugins;
 
@@ -72,14 +70,7 @@ public class CommandHandler {
     private void reloadPlugins(){
         String pluginsPath = "plugins";
 
-        PluginLoader pluginLoader = new PluginLoader(new File(pluginsPath));
-        pluginLoader.loadPlugins();
-
-        Map<String, PluginFactory> factories = pluginLoader.getPluginFactories();
-
-        for (String key : factories.keySet()) {
-            PluginStore.instance.plugins.put(key, factories.get(key).build());
-        }
+        EasyContactFormsApplication.loadPlugins(pluginsPath);
         plugins = priorities();
 
         //Starts all plugins
