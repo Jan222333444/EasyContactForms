@@ -157,4 +157,12 @@ public class CommandHandler {
             log.error("Something went wrong on Shutdown");
         }
     }
+
+    /**
+     *
+     * @return List<Plugin> ordered from highest to lowest
+     */
+    public List<Plugin> getPluginsByPriority(){
+        return plugins;
+    }
 }
