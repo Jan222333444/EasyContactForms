@@ -20,7 +20,6 @@ import java.util.Date;
 @Slf4j
 public class FirstStartupChecker {
     public void checkDirectories() {
-        log.error("Building certificate");
         File pluginsDir = new File("plugins");
         if (!pluginsDir.exists() || !pluginsDir.isDirectory()) {
             createPluginDirectory(pluginsDir);
@@ -28,7 +27,11 @@ public class FirstStartupChecker {
         File configDir = new File("config");
         if (!configDir.exists() || !configDir.isDirectory()) {
             createConfigDirectory(configDir);
-            generateSSLCertificate();
+
+        }
+        File secretsDir = new File("secrets");
+        if(!secretsDir.exists() || !secretsDir.isDirectory()){
+            generateSSLCertificate(secretsDir);
         }
     }
 
@@ -63,8 +66,8 @@ public class FirstStartupChecker {
         }
     }
 
-    public void generateSSLCertificate()  {
-        File secretsDir = new File("secrets");
+    public void generateSSLCertificate(File secretsDir)  {
+        log.info("Building certificate");
         if (!secretsDir.exists() || !secretsDir.isDirectory()) {
             if(!secretsDir.mkdirs()){
                 log.error("Could not create directory");
