@@ -1,8 +1,9 @@
-package org.easycontactforms.core.pluginloader;
+package org.easycontactforms.core.commandhandler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.api.Plugin;
 import org.easycontactforms.core.EasyContactFormsApplication;
+import org.easycontactforms.core.pluginloader.PluginStore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 
@@ -43,11 +44,13 @@ public class CommandHandler {
      * @param command base command (everything before first white space)
      * @param args all command line arguments (including command)
      */
-    public void onCommand(String command, String... args) {
+    public boolean onCommand(String command, String... args) {
         boolean internalCommand = internalCommands(command, args);
+        boolean external = false;
         if(!internalCommand){
-            onCommandPlugins(command, args);
+            external = onCommandPlugins(command, args);
         }
+        return internalCommand || external;
     }
 
     /**
@@ -63,18 +66,19 @@ public class CommandHandler {
      * @param command executed command
      * @param args command line arguments
      */
-    private void onCommandPlugins(String command, String... args) {
+    private boolean onCommandPlugins(String command, String... args) {
         for (Plugin plugin : plugins) {
             try {
                 boolean handled = plugin.onCommand(command, args);
                 if (handled) {
-                    break;
+                    return true;
                 }
             } catch (AbstractMethodError error) {
                 log.warn("Plugin does not implement onCommand Method");
                 log.warn(error.getMessage());
             }
         }
+        return false;
     }
 
     /**
@@ -160,7 +164,7 @@ public class CommandHandler {
 
     /**
      *
-     * @return List<Plugin> ordered from highest to lowest
+     * @return List of Plugins ordered from highest to lowest priority
      */
     public List<Plugin> getPluginsByPriority(){
         return plugins;

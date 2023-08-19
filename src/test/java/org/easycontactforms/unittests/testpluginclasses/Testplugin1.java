@@ -40,6 +40,6 @@ public class Testplugin1 implements Plugin {
 
     @Override
     public boolean onCommand(String command, String... args) {
-        return false;
+        return command.equalsIgnoreCase("plugintestcommand");
     }
 }

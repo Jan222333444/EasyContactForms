@@ -3,7 +3,7 @@ package org.easycontactforms.core;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.api.PluginFactory;
-import org.easycontactforms.core.pluginloader.CommandHandler;
+import org.easycontactforms.core.commandhandler.CommandHandlerThread;
 import org.easycontactforms.core.pluginloader.PluginLoader;
 import org.easycontactforms.core.pluginloader.PluginStore;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Main class of application
@@ -41,16 +40,8 @@ public class EasyContactFormsApplication {
             PluginStore.instance.plugins.get(key).onLoad();
         }
 
-        //Waiting and processing commands from std in
-        Scanner scanner = new Scanner(System.in);
-        CommandHandler handler = new CommandHandler(context, args);
-        while (true) {
-            String input = scanner.nextLine();
-            String[] arguments = input.split(" ");
-            String command = arguments[0];
-            handler.onCommand(command, arguments);
-
-        }
+        CommandHandlerThread handlerThread = new CommandHandlerThread(context, System.in, args);
+        handlerThread.start();
     }
 
     public static void loadPlugins(String pluginsPath) {
