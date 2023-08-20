@@ -1,14 +1,13 @@
 package org.easycontactforms.core.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.easycontactforms.core.dtos.ContactFormDto;
 import org.easycontactforms.core.models.ContactForm;
 import org.easycontactforms.core.repositories.ContactFormRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,12 +31,12 @@ public class ContactFormService {
 
     /**
      * handles initial request
-     * @param contactFormDto
-     * @return
+     * @param contactFormDto dto for contact form
+     * @return Saved contact form
      */
     public ContactForm saveContactForm(ContactFormDto contactFormDto){
         ContactForm contactForm = repository.save(ContactForm.fromContactFormDto(contactFormDto));
-        if(mode.equalsIgnoreCase("email")){
+        if(mode != null && mode.equalsIgnoreCase("email")){
             log.info("Redirecting Contact Form to email");
             MailSendThread thread = new MailSendThread(this, mailingService, contactForm);
             thread.start();
@@ -49,7 +48,7 @@ public class ContactFormService {
     /**
      * updates single instance in database
      * @param contactForm changed object
-     * @return result from database
+     * @return updated contact form from database
      */
     public ContactForm updateContactForm(ContactForm contactForm){
         repository.save(contactForm);
